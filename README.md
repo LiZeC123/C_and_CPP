@@ -1,2 +1,2 @@
 # C_and_CPP
-there is some code about c and c plus plus
+there are some codes about c and c plus plus
