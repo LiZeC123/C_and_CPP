@@ -3,6 +3,8 @@
 #include <stdbool.h>
 
 #define MAX_SIZE 45
+#define EOL  -1		//表示列表末尾 
+
 struct element{
 	char name[MAX_SIZE];
 	int age;
@@ -12,7 +14,7 @@ typedef struct element Item;
 
 typedef struct node{
 	Item item;
-	unsigned int edx;
+
 	struct node * next;
 }Node;
 
@@ -32,6 +34,12 @@ unsigned int ListItemCount(const List * plist);
 bool AddItem(Item item,List * plist);
 
 void Traverse(const List * plist,void(*pfun)(Item item));
+
+void Traverse_one(const List * plist,unsigned int location,void(*pfun)(Item item));
+
+bool RandomAddItem(Item item,List * plist,unsigned int location);
+
+bool DeleteItem(List * plist,unsigned int location);
 
 void EmptyTheList(List * plist);
 
