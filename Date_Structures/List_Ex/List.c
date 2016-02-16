@@ -34,10 +34,9 @@ bool ListIsFull(List * plist){
 
 unsigned int ListItemCount(const List * plist){
 	unsigned int count=0;
-	Node * pt;
-	if(plist->head != NULL){
-		count = plist->end->edx;
-		count++ ; //edx´ÓÁã¿ªÊ¼ 
+	Node * pnode = plist->head;
+	while(pnode->next != NULL){
+		count++;
 	}
 	return count;
 }
@@ -54,13 +53,11 @@ bool AddItem(Item item,List * plist){
 	pnew->next=NULL;
 	
 	if(plist->head == NULL){
-		pnew->edx = 0;
 		plist->head = pnew;
 		plist->end =  pnew;
 	}
 	else{
 		plist->end->next = pnew;
-		pnew->edx = (plist->end->edx + 1);
 		plist->end = pnew;
 	}
 	return true;
@@ -71,6 +68,103 @@ void Traverse(const List * plist,void(*pfun)(Item item)){
 	while(pnode != NULL){
 		(*pfun)(pnode->item);
 		pnode = pnode->next;
+	}
+}
+
+void Traverse_one(const List * plist,unsigned int location,void(*pfun)(Item item)){
+	Node * pnode = plist->head;
+	bool get=false;
+	unsigned int count=0;
+	while(pnode->next != NULL){
+		if(count == location){
+			get = true;
+			break;
+		}
+		count++;
+		pnode=pnode->next;
+	}
+	if(get){
+		(*pfun)(pnode->item);
+	}
+	else{
+		fprintf(stderr,"threr are not so much items\n");
+	}
+}
+
+bool RandomAddItem(Item item,List * plist,unsigned int location){
+	if(location == -1){
+		return AddItem(item,plist);
+	}
+	
+	Node * pnew;
+	Node * pnode=plist->head;
+	pnew=(Node *)malloc(sizeof(Node));
+	if(pnew==NULL){
+		fprintf(stderr,"The memory is full\n");
+		return false;
+	}
+	CopyToNode(item,pnew);
+
+	if(location == 0){
+		pnew->next = plist->head;
+		plist->head = pnew;
+		return true;
+	}
+	
+	bool get=false;
+	unsigned int count=0;
+	unsigned int pre_location = location - 1;
+	while(pnode->next != NULL){
+		if(count == pre_location){
+			get = true;
+			break;
+		}
+		count++;
+		pnode=pnode->next;
+	}
+	if(get){
+		pnew->next=pnode->next;
+		pnode->next=pnew;
+		return true;
+	}
+	else{
+		fprintf(stderr,"threr are not so much items\n");
+		return false;
+	}
+}
+
+bool DeleteItem(List * plist,unsigned int location){
+	Node * pnode = plist->head;
+	if( location < 0 ){
+		fprintf(stderr," parameter error:location should greet than zero \n");
+		return false;
+	}
+	else if(location == 0){
+		plist->head = pnode->next;
+		free(pnode);
+		return true;
+	}
+	
+	bool get=false;
+	unsigned int count=0;
+	unsigned int pre_location = location - 1;
+	while(pnode->next != NULL){
+		if(count == pre_location){
+			get = true;
+			break;
+		}
+		count++;
+		pnode=pnode->next;
+	}
+	if(get){
+		Node * psave = pnode->next;
+		pnode->next = psave->next;
+		free(psave);
+		return true;
+	}
+	else{
+		fprintf(stderr,"location should less than the limit of the list\n");
+		return false;
 	}
 }
 
