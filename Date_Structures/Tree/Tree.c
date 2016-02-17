@@ -49,7 +49,7 @@ bool AddItem(const Item * pi,Tree * ptree){
 		return false;
 	}
 	if(SeekItem(pi,ptree).child != NULL){
-		fprintf(stderr,"Attempted to add dulicate item\n");
+		fprintf(stderr,"Attempted to add duplicate item\n");
 		return false;
 	}
 	new_node = MakeNode(pi);
@@ -100,8 +100,8 @@ void Traverse(const Tree * ptree,void (*pfun)(Item item)){
 }
 
 
-void DeletaAll(Tree * ptree){
-	if(ptree!= NULL){
+void DeleteAll(Tree * ptree){
+	if(ptree != NULL){
 		DeleteAllNodes(ptree->root);
 	}
 	ptree->root = NULL;
@@ -113,6 +113,7 @@ void DeletaAll(Tree * ptree){
  	Node * pright;
  	if(root != NULL){
  		pright = root->right;
+ 		//先保存右右节点的地址，以便该节点被删除以后，还能知道右节点的位置 
  		DeleteAllNodes(root->left);
  		free(root);
  		DeleteAllNodes(pright);
@@ -133,14 +134,13 @@ static void DeleteNode(Node **ptr){
 	//ptr是指向目标节点的父节点中指向目标节点的指针成员的地址
 	//所以*ptr是指向目标节点的指针 
 	Node  * temp;
-	puts((*ptr)->item.petname );
-	//第一中情况，一个节点为空，将非空节点依附到被删除节点原来的位置 
+	//第一种情况，一个节点为空，将非空节点依附到被删除节点原来的位置 
 	if((*ptr)->left == NULL){
 		temp = *ptr;
 		*ptr = (*ptr)->right;
 		free(temp);
 	} 
-	if((*ptr)->right == NULL){
+	else if((*ptr)->right == NULL){
 		temp = *ptr;
 		*ptr = (*ptr)->left;
 		free(temp);
@@ -160,6 +160,7 @@ static void DeleteNode(Node **ptr){
 
 static Node * MakeNode(const Item * pi){
 	Node * new_node;
+	
 	new_node=(Node *)malloc(sizeof(Node));
 	if(new_node != NULL){
 		new_node->item  = *pi;
@@ -254,7 +255,5 @@ static Pair SeekItem(const Item * pi,const Tree * ptree){
 	return look;
 	//要么child变成来了NULL，表示没有找到，要么就break出循环，表示找到项目 
 }
-
-
 
 

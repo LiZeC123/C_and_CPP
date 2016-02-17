@@ -37,7 +37,7 @@ bool DeleteItem(const Item * pi,Tree * ptree);
 
 void Traverse(const Tree * ptree,void (*pfun)(Item item));
 
-void DeletaAll(Tree * ptree);
+void DeleteAll(Tree * ptree);
 
 #endif
 
