@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include "List.h"
 
+//结构不能直接比较大小，需要一个函数来比较
+ 
+static bool IsEqual(Item item1,Item item2);
+
 static void CopyToNode(Item item,Node * pnode);
 
 void InitializeList(List * plist){
@@ -91,13 +95,20 @@ void Traverse_one(const List * plist,unsigned int location,void(*pfun)(Item item
 	}
 }
 
-bool RandomAddItem(Item item,List * plist,unsigned int location){
-	if(location == -1){
-		return AddItem(item,plist);
+
+bool RandomAddItem(Item item,unsigned int location,List * plist){
+	int max_node = ListItemCount(plist);
+	if(location > max_node+1){
+		fprintf(stderr,"\nerror : there are only %u item(s)\n",max_node);
+		return false;	
 	}
+	else if(location < 1){
+		fprintf(stderr,"\nerror : location shuold great than zero\n");
+		return false;
+	}
+
 	
 	Node * pnew;
-	Node * pnode=plist->head;
 	pnew=(Node *)malloc(sizeof(Node));
 	if(pnew==NULL){
 		fprintf(stderr,"The memory is full\n");
@@ -105,67 +116,58 @@ bool RandomAddItem(Item item,List * plist,unsigned int location){
 	}
 	CopyToNode(item,pnew);
 
-	if(location == 0){
-		pnew->next = plist->head;
+	
+
+	Node * pnode=plist->head;
+	
+	//如果链表为空 
+	if(pnode == NULL){
 		plist->head = pnew;
-		return true;
+		plist->end =  pnew;
+		return true ;
 	}
 	
-	bool get=false;
-	unsigned int count=0;
+	
+	unsigned int count=1;
 	unsigned int pre_location = location - 1;
-	while(pnode->next != NULL){
-		if(count == pre_location){
-			get = true;
-			break;
-		}
+	while(pnode->next != NULL && count != pre_location){
 		count++;
 		pnode=pnode->next;
 	}
-	if(get){
-		pnew->next=pnode->next;
-		pnode->next=pnew;
-		return true;
-	}
-	else{
-		fprintf(stderr,"threr are not so much items\n");
-		return false;
-	}
+	
+	pnew->next=pnode->next;
+	pnode->next=pnew;
+	return true;
 }
+
 
 bool DeleteItem(List * plist,unsigned int location){
 	Node * pnode = plist->head;
-	if( location < 0 ){
+	int max_node = ListItemCount(plist);
+	if( location < 1 ){
 		fprintf(stderr," parameter error:location should greet than zero \n");
 		return false;
 	}
-	else if(location == 0){
+	else if(location < max_node){
+		fprintf(stderr,"location should less than the limit of the list\n");
+		return false;
+	}
+ 	if(location == 1){
 		plist->head = pnode->next;
 		free(pnode);
 		return true;
 	}
 	
-	bool get=false;
-	unsigned int count=0;
+	unsigned int count=1;
 	unsigned int pre_location = location - 1;
-	while(pnode->next != NULL){
-		if(count == pre_location){
-			get = true;
-			break;
-		}
+	while(pnode->next != NULL && count != pre_location){
 		count++;
 		pnode=pnode->next;
 	}
-	if(get){
-		Node * psave = pnode->next;
-		pnode->next = psave->next;
-		free(psave);
-		return true;
-	}
-	else{
-		fprintf(stderr,"location should less than the limit of the list\n");
-		return false;
-	}
+	Node * psave = pnode->next;
+	pnode->next = psave->next;
+	free(psave);
+	return true;
 }
 
 void EmptyTheList(List * plist){

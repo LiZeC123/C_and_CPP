@@ -48,15 +48,7 @@ int main(void){
 		printf("Here is the movie list:\n");
 		Traverse(&movies,showmovies);
 	}
-	
-	unsigned int  edx;
-	/*
-	//随机读取
-	
-	printf("\nplease input a num:");
-	scanf("%u",&edx);
-	Traverse_one(&movies,edx,showmovies); 
-	*/
+
 	
 	
 	//随机添加和删除
