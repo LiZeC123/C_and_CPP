@@ -67,7 +67,6 @@ void ShowMatrix(Matrix * pmx){
 	const int ROW = pmx->row;
 	const int COLUMN = pmx->column;
 	int a=0,b=0;
-	putchar('\n');
 	for(a=0;a<ROW;a++){
 		putchar('|');
 		for(b=0;b<COLUMN;b++){
@@ -100,7 +99,7 @@ void ToTriangleMattrix(Matrix * pmx){
 	const int ROW = pmx->row;
 	const int COLUMN = pmx->column;
 	int * pi = pmx->head; 
-	int temp[COLUMN];		//存放用于化简其他行在计算是的临时数组 
+	int temp[COLUMN];		//存放用于化简其他行在计算时的临时数组 
 	int temp_do;			//存放用于化简其他行的关键元素 
 	int temp_done;			//存放被化简的行的关键元素 
 	for(each=1;each<=ROW-1;each++){
@@ -108,20 +107,12 @@ void ToTriangleMattrix(Matrix * pmx){
 			CopyToTemp(temp,each,pmx);
 			temp_do = pi[EdxToEdx(pmx,each,each)];
 			temp_done = pi[EdxToEdx(pmx,i,each)];
-			for(j=1;j<=COLUMN;j++){				//此处j会提前退出，查明bug 
-				pi[EdxToEdx(pmx,i,j)] = temp_done*temp[j-1]-temp_do*pi[EdxToEdx(pmx,i,j)]; 
-				ShowMatrix(pmx);
-			}
-			//此处为辅助函数 
-			ShowMatrix(pmx);
 			
+			for(j=1;j<=COLUMN;j++){
+				pi[EdxToEdx(pmx,i,j)] = temp_done*temp[j-1]-temp_do*pi[EdxToEdx(pmx,i,j)]; 
+			}	
 		}
 	} 
-	
-	
-	
-	
-	
 } 
 
 

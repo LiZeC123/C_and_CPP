@@ -29,17 +29,15 @@ int main(int argc, char *argv[]) {
 	}
 	
 	//显示当前矩阵 
-	printf("There is the matrix you input:");
+	puts("There is the matrix you input:");
+
 	ShowMatrix(&Rc);
 	
 	
 	//转化成三角形方程
 	ToTriangleMattrix(&Rc);
+	puts("there is the answer:");
 	ShowMatrix(&Rc);
-	
-	//对三角形方程求解 
-	
-	
 	
 	
 	return 0;
