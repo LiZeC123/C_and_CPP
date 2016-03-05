@@ -99,7 +99,7 @@ void Traverse_one(const List * plist,unsigned int location,void(*pfun)(Item item
 bool RandomAddItem(Item item,unsigned int location,List * plist){
 	int max_node = ListItemCount(plist);
 	if(location > max_node+1){
-		fprintf(stderr,"\nerror : there are only %u item(s)\n",max_node);
+		fprintf(stderr,"\nerror : there are only %u item(s)\n",max_node+1);
 		return false;	
 	}
 	else if(location < 1){

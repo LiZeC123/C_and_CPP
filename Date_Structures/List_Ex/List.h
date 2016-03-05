@@ -6,7 +6,7 @@
 
 struct element{
 	char name[MAX_SIZE];
-	int age;
+	int rating;
 };
 
 typedef struct element Item;
