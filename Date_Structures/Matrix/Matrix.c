@@ -25,7 +25,8 @@ Configuration Matrix_Configuration(Matrix * pmx){
 	Configuration con;        				//con ´ú±íconfiguration 
 	FILE * fp_con;
 	fp_con = fopen("configuration.txt","r");
-	fscanf(fp_con,"[where] = %d",&con.where);
+	fscanf(fp_con,"[Input] = %d\n",&con.input);
+	fscanf(fp_con,"[Output] = %d",&con.output );
 	fclose(fp_con); 
 	return con;
 }
@@ -46,7 +47,7 @@ void Get_File_Matrix(Matrix * pmx,const char * filename){
 	}	
 }
 
-void Get_stdin_Matrix(Matrix * pmx){
+void Get_Stdin_Matrix(Matrix * pmx){
 	int * pi = pmx->head;
 	const int ROW = pmx->row;
 	const int COLUMN = pmx->column;
@@ -62,7 +63,7 @@ void Get_stdin_Matrix(Matrix * pmx){
 }
 
 
-void ShowMatrix(Matrix * pmx){
+void ShowMatrix(const Matrix * pmx){
 	int * pi = pmx->head;
 	const int ROW = pmx->row;
 	const int COLUMN = pmx->column;
@@ -70,13 +71,35 @@ void ShowMatrix(Matrix * pmx){
 	for(a=0;a<ROW;a++){
 		putchar('|');
 		for(b=0;b<COLUMN;b++){
-			printf("%5d",*pi);
+			printf("%7d",*pi);
 			pi++;
 		}
-		printf("    |\n");
+		printf("      |\n");
 	}
 	
 }
+
+
+void WriteToFile(const Matrix * pmx){
+	FILE *fp_output;
+	fp_output = fopen("output.txt","w");
+	
+	int * pi = pmx->head;
+	const int ROW = pmx->row;
+	const int COLUMN = pmx->column;	int temp;
+	
+	int a=0,b=0;
+	for(a=0;a<ROW;a++){
+		fprintf(fp_output,"|");
+		for(b=0;b<COLUMN;b++){
+			fprintf(fp_output,"%7d",*pi);
+			pi++;
+		}
+		fprintf(fp_output,"      |\n");
+	}
+}
+
+
 
 
 void Traverse(Matrix * pmx, void (*pfun)(int item)){
