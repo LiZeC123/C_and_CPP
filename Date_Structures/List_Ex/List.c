@@ -37,10 +37,11 @@ bool ListIsFull(List * plist){
 }
 
 unsigned int ListItemCount(const List * plist){
-	unsigned int count=0;
+	unsigned int count = 0;
 	Node * pnode = plist->head;
-	while(pnode->next != NULL){
+	while(pnode != NULL){
 		count++;
+		pnode = pnode->next;
 	}
 	return count;
 }
@@ -96,80 +97,6 @@ void Traverse_one(const List * plist,unsigned int location,void(*pfun)(Item item
 }
 
 
-bool RandomAddItem(Item item,unsigned int location,List * plist){
-	int max_node = ListItemCount(plist);
-	if(location > max_node+1){
-		fprintf(stderr,"\nerror : there are only %u item(s)\n",max_node+1);
-		return false;	
-	}
-	else if(location < 1){
-		fprintf(stderr,"\nerror : location shuold great than zero\n");
-		return false;
-	}
-
-	
-	Node * pnew;
-	pnew=(Node *)malloc(sizeof(Node));
-	if(pnew==NULL){
-		fprintf(stderr,"The memory is full\n");
-		return false;
-	}
-	CopyToNode(item,pnew);
-
-	
-
-	Node * pnode=plist->head;
-	
-	//如果链表为空 
-	if(pnode == NULL){
-		plist->head = pnew;
-		plist->end =  pnew;
-		return true ;
-	}
-	
-	
-	unsigned int count=1;
-	unsigned int pre_location = location - 1;
-	while(pnode->next != NULL && count != pre_location){
-		count++;
-		pnode=pnode->next;
-	}
-	
-	pnew->next=pnode->next;
-	pnode->next=pnew;
-	return true;
-}
-
-
-bool DeleteItem(List * plist,unsigned int location){
-	Node * pnode = plist->head;
-	int max_node = ListItemCount(plist);
-	if( location < 1 ){
-		fprintf(stderr," parameter error:location should greet than zero \n");
-		return false;
-	}
-	else if(location < max_node){
-		fprintf(stderr,"location should less than the limit of the list\n");
-		return false;
-	}
- 	if(location == 1){
-		plist->head = pnode->next;
-		free(pnode);
-		return true;
-	}
-	
-	unsigned int count=1;
-	unsigned int pre_location = location - 1;
-	while(pnode->next != NULL && count != pre_location){
-		count++;
-		pnode=pnode->next;
-	}
-	Node * psave = pnode->next;
-	pnode->next = psave->next;
-	free(psave);
-	return true;
-}
-
 void EmptyTheList(List * plist){
 	Node * psave;
 	while(plist->head != NULL){
@@ -179,6 +106,85 @@ void EmptyTheList(List * plist){
 	}
 	
 }
+
+
+bool DeleteItem(List * plist,unsigned int location){
+	int max_num = ListItemCount(plist);
+	Node * this_node;
+	Node * pre_node = plist->head;
+	int count=1;
+	//处于中间的情况直接删除即可 
+	if(location > 1 && location < max_num){
+		while(count < location -1){
+			pre_node = pre_node->next;
+			count++;
+		}
+		this_node = pre_node->next;
+		pre_node->next = this_node->next;
+		free(this_node);
+		return true;
+	}
+	//删除第一个项目需要调整头指针指向 
+	if(location == 1){
+		plist->head = plist->head->next;
+		return true;
+	}
+	//删除最后一个项目需要调整末尾指针指向 
+	if(location == max_num){
+		while(count < location -1){
+			pre_node = pre_node->next;
+			count++;
+		}
+		this_node = pre_node->next;
+		free(this_node);
+		pre_node->next = NULL;
+		plist->end = pre_node;
+		return true;
+	}
+	
+	//否则数值不再有效范围内 
+	fprintf(stderr,"location should less than %u and bigger than zero\n",max_num+1);
+	return false;
+}
+
+
+bool RandomAddItem(Item item,unsigned int location,List * plist){
+	Node * pnew;
+	pnew=(Node *)malloc(sizeof(Node));
+	if(pnew==NULL){
+		fprintf(stderr,"The memory is full");
+		return false;
+	}
+	CopyToNode(item,pnew);
+	
+	
+	int max_num = ListItemCount(plist);
+	Node * this_node;
+	Node * pre_node = plist->head;
+	int count=1;
+	if(location > 1 && location <= max_num){
+		while(count < location -1){
+			pre_node = pre_node->next;
+			count++;
+		}
+		this_node = pre_node->next;
+		pre_node->next = pnew;
+		pnew->next = this_node;
+		return true;
+	}
+	if(location == 1){
+		pnew->next = plist->head;
+		plist->head = pnew;
+		return true;
+	}
+	
+	//位置选择错误，释放创建的内存块 
+	free(pnew); 
+	fprintf(stderr,"location should less than %u and bigger than zero\n",max_num+1);
+	return false;
+}
+
+
 
 static void CopyToNode(Item item,Node * pnode){
 	pnode->item = item;

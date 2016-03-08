@@ -44,7 +44,7 @@ int main(void){
 				
 			case 'l' :
 				if(ListIsEmpty(&movies)){
-					printf("No data entered.");
+					printf("No data entered.\n");
 				}
 				else{
 					system("cls");
@@ -54,11 +54,13 @@ int main(void){
 				}
 				break;
 				
-			case 'f' :
+			case 'b' :
 				temp = Get_Item();
 				location = Get_Location();
 				RandomAddItem(temp,location,&movies);
+				eatline();//出去因输入数字后残余的/n 
 				break;
+			
 				
 			case 'n' :
 				Print_Count(ListItemCount(&movies));
@@ -67,6 +69,7 @@ int main(void){
 			case 'd' :
 				location = Get_Location();
 				DeleteItem(&movies,location);
+				eatline();
 				break;
 				
 			default  :
@@ -84,7 +87,7 @@ char menu(void){
 	
 	puts("Nerfville Movies List Program"); 
 	puts("Enter the letter correspnoding to your choice:");
-	puts("a)add a pet at the last               f)add a movies after a location");
+	puts("a)add a pet at the last               b)add a movies before a location");
 	puts("l)show list of pets                   n)number of pet");
 	puts("d)delete a movies after a location    q)quit ");
 
@@ -92,7 +95,7 @@ char menu(void){
 		eatline();
 		
 		ch = tolower(ch);
-		if(strchr("alndfq",ch) == NULL){
+		if(strchr("alndbq",ch) == NULL){
 			puts("Please enter an a,l,n,f,d or q:");
 		}
 		else{
@@ -105,8 +108,6 @@ char menu(void){
 	
 	return ch;
 }
-
-
 
 
 void showmovies(Item item){
