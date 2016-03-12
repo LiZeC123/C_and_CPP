@@ -52,6 +52,14 @@ bool Push(Item item,Stack * pstack){
 	return true;
 }
 
+
+Item Top(Stack * pstack){
+	Item temp;
+	temp = pstack->end->item;
+	return temp;
+}
+
+
 bool Pop(Stack * pstack){
 	if(StackIsEmpty(pstack)){
 		return false;

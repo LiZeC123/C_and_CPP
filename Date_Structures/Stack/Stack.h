@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#define MAX_SIZE 10
+#define MAX_SIZE 5
 
 typedef struct item{
 	int data;
@@ -31,6 +31,8 @@ bool StackIsFull(Stack * pstack);
 unsigned int StackItemCount(const Stack * pstack);
 
 bool Push(Item item,Stack * pstack);
+
+Item Top(Stack * pstack);
 
 bool Pop(Stack * pstack);
 
