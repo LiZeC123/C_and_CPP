@@ -12,7 +12,7 @@ void InitializeStack(Stack * pstack){
 }
 
 bool StackIsEmpty(Stack * pstack){
-	if(pstack->size = 0){
+	if(pstack->size == 0){
 		return true;
 	}
 	else{
@@ -21,7 +21,7 @@ bool StackIsEmpty(Stack * pstack){
 }
  
 bool StackIsFull(Stack * pstack){
-	return pstack->size == MAX_SIZE;	
+	return !(pstack->size < MAX_SIZE);	
 }
 
 unsigned int StackItemCount(const Stack * pstack){
@@ -63,7 +63,7 @@ bool Pop(Stack * pstack){
 		pstack->end  = NULL;	
 	}
 	else{
-		int max_num = StackIsEmpty(pstack);
+		int max_num = StackItemCount(pstack);
 		Node * this_node;
 		Node * pre_node = pstack->head;
 		int count=1;
