@@ -53,17 +53,12 @@ bool Push(Item item,Stack * pstack){
 }
 
 
-Item Top(Stack * pstack){
-	Item temp;
-	temp = pstack->end->item;
-	return temp;
-}
-
-
-bool Pop(Stack * pstack){
+bool Pop(Item * item,Stack * pstack){
 	if(StackIsEmpty(pstack)){
 		return false;
 	}
+	
+	*item = pstack->end->item;
 	
 	if(pstack->size == 1){
 		free(pstack->end);

@@ -32,8 +32,6 @@ unsigned int StackItemCount(const Stack * pstack);
 
 bool Push(Item item,Stack * pstack);
 
-Item Top(Stack * pstack);
-
-bool Pop(Stack * pstack);
+bool Pop(Item * item,Stack * pstack);
 
 #endif
