@@ -55,7 +55,7 @@ bool MinInsert( MinHeap H, ElementType X)
 	int i;
 	
 	if(IsFull(H)) {
-        printf("最大堆已满");
+        printf("最小堆已满");
         return false;
 	}
 	i = ++H->Size;
@@ -105,7 +105,7 @@ ElementType DeleteMin( MinHeap H )
     ElementType MinItem, X;
  
     if ( IsEmpty(H) ) {
-        printf("最大堆已为空");
+        printf("最小堆已为空");
         return ERROR;
     }
  
