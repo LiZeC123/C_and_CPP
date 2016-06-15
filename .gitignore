@@ -61,3 +61,5 @@ bject files
 *.out
 *.app
 
+# DEV C++
+*.dev
