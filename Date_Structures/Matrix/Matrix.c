@@ -49,12 +49,10 @@ void Get_File_Matrix(Matrix * pmx,const char * filename){
 
 void Get_Stdin_Matrix(Matrix * pmx){
 	int * pi = pmx->head;
-	const int ROW = pmx->row;
-	const int COLUMN = pmx->column;
 	int a,b;
 	puts("plesse input your Matrix now");
-	for(a=0;a<ROW;a++){
-		for(b=0;b<COLUMN;b++){
+	for(a=0;a<pmx->row;a++){
+		for(b=0;b<pmx->column;b++){
 			//修改int后，此处需要修改 
 			scanf("%d",pi);
 			pi++;
@@ -65,18 +63,15 @@ void Get_Stdin_Matrix(Matrix * pmx){
 
 void ShowMatrix(const Matrix * pmx){
 	int * pi = pmx->head;
-	const int ROW = pmx->row;
-	const int COLUMN = pmx->column;
 	int a=0,b=0;
-	for(a=0;a<ROW;a++){
+	for(a=0;a < pmx->row;a++){
 		putchar('|');
-		for(b=0;b<COLUMN;b++){
+		for(b=0; b< pmx->column ;b++){
 			printf("%7d",*pi);
 			pi++;
 		}
 		printf("      |\n");
 	}
-	
 }
 
 
