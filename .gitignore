@@ -56,10 +56,5 @@ bject files
 *.a
 *.lib
 
-# Executables
-*.exe
-*.out
-*.app
-
 # DEV C++
 *.dev
