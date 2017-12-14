@@ -41,7 +41,7 @@ void Haffman(int weight[], int n, HaffNode haffTree[])
         m1 = m2 = MaxValue;//保存对应数值的权重 
         x1 = x2 = 0;//x1、x2是用来保存最小的两个值在数组对应的下标
  
-        for (j = i; j<n + i; j++)//循环找出所有权重中，最小的二个值--morgan
+        for (j = 0; j<n + i; j++)//循环找出所有权重中，最小的二个值--morgan
         {
             if (haffTree[j].weight<m1&&haffTree[j].flag == 0)
             {
@@ -98,6 +98,7 @@ void HaffmanCode(HaffNode haffTree[], int n, Code haffCode[])
         haffCode[i].end = cd->end;
         haffCode[i].weight = cd->weight;//保存编码对应的权值
     }
+	delete cd;
 }
 int main()
 {
