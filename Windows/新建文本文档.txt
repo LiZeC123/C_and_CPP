@@ -1,0 +1,8 @@
+E:/text/Windows/libwinmm.a
+E:/text/Windows/libmsimg32.a
+E:/text/Windows/libkernel32.a
+E:/text/Windows/libuser32.a
+E:/text/Windows/libgdi32.a
+E:/text/Windows/libole32.a
+E:/text/Windows/liboleaut32.a
+E:/text/Windows/libuuid.a
